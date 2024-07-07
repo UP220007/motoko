@@ -1,0 +1,236 @@
+export const idlFactory = ({ IDL }) => {
+  const Alumno = IDL.Record({
+    'id' : IDL.Nat,
+    'nombres' : IDL.Text,
+    'apellido_paterno' : IDL.Text,
+    'fecha_nacimiento' : IDL.Text,
+    'carrera_id' : IDL.Nat,
+    'grupo' : IDL.Text,
+    'apellido_materno' : IDL.Text,
+    'cuatrimestre_en_curso' : IDL.Nat,
+    'fecha_inscripcion' : IDL.Text,
+  });
+  const Calificacion = IDL.Record({
+    'id' : IDL.Nat,
+    'oportunidad' : IDL.Text,
+    'alumno_id' : IDL.Nat,
+    'materia_id' : IDL.Nat,
+    'calificacion' : IDL.Opt(IDL.Nat),
+    'aprobada' : IDL.Bool,
+  });
+  const Carrera = IDL.Record({ 'id' : IDL.Nat, 'nombre' : IDL.Text });
+  const Docente = IDL.Record({ 'id' : IDL.Nat, 'nombre' : IDL.Text });
+  const Horario = IDL.Record({
+    'id' : IDL.Nat,
+    'dia' : IDL.Text,
+    'turno' : IDL.Text,
+    'docente_id' : IDL.Nat,
+    'cuatrimestre' : IDL.Text,
+    'hora_inicio' : IDL.Text,
+    'materia_id' : IDL.Nat,
+    'salon' : IDL.Text,
+    'hora_fin' : IDL.Text,
+  });
+  const Materia = IDL.Record({
+    'id' : IDL.Nat,
+    'nombre' : IDL.Text,
+    'carrera_id' : IDL.Nat,
+  });
+  const MateriaDocente = IDL.Record({
+    'id' : IDL.Nat,
+    'docente_id' : IDL.Nat,
+    'materia_id' : IDL.Nat,
+  });
+  return IDL.Service({
+    'addAlumno' : IDL.Func(
+        [
+          IDL.Text,
+          IDL.Text,
+          IDL.Nat,
+          IDL.Nat,
+          IDL.Text,
+          IDL.Text,
+          IDL.Text,
+          IDL.Nat,
+          IDL.Text,
+        ],
+        [],
+        [],
+      ),
+    'addCalificacion' : IDL.Func(
+        [IDL.Nat, IDL.Bool, IDL.Opt(IDL.Nat), IDL.Nat, IDL.Nat, IDL.Text],
+        [],
+        [],
+      ),
+    'addCarrera' : IDL.Func([IDL.Nat, IDL.Text], [], []),
+    'addDocente' : IDL.Func([IDL.Nat, IDL.Text], [], []),
+    'addHorario' : IDL.Func(
+        [
+          IDL.Text,
+          IDL.Text,
+          IDL.Nat,
+          IDL.Text,
+          IDL.Text,
+          IDL.Nat,
+          IDL.Nat,
+          IDL.Text,
+          IDL.Text,
+        ],
+        [],
+        [],
+      ),
+    'addMateria' : IDL.Func([IDL.Nat, IDL.Nat, IDL.Text], [], []),
+    'addMateriaDocente' : IDL.Func([IDL.Nat, IDL.Nat, IDL.Nat], [], []),
+    'asignarGrupoAlumno' : IDL.Func([IDL.Nat, IDL.Text], [], []),
+    'buscarAlumnoPorId' : IDL.Func([IDL.Nat], [IDL.Opt(Alumno)], ['query']),
+    'buscarAlumnosPorFechaInscripcion' : IDL.Func(
+        [IDL.Text],
+        [IDL.Vec(Alumno)],
+        ['query'],
+      ),
+    'buscarAlumnosPorGrupo' : IDL.Func(
+        [IDL.Text],
+        [IDL.Vec(Alumno)],
+        ['query'],
+      ),
+    'buscarCalificacionesPorAlumno' : IDL.Func(
+        [IDL.Nat],
+        [IDL.Vec(Calificacion)],
+        ['query'],
+      ),
+    'buscarCarreraPorNombre' : IDL.Func(
+        [IDL.Text],
+        [IDL.Vec(Carrera)],
+        ['query'],
+      ),
+    'buscarDocentePorNombre' : IDL.Func(
+        [IDL.Text],
+        [IDL.Vec(Docente)],
+        ['query'],
+      ),
+    'buscarHorariosPorCuatrimestre' : IDL.Func(
+        [IDL.Text],
+        [IDL.Vec(Horario)],
+        ['query'],
+      ),
+    'buscarHorariosPorCuatrimestreYDia' : IDL.Func(
+        [IDL.Text, IDL.Text],
+        [IDL.Vec(Horario)],
+        ['query'],
+      ),
+    'buscarHorariosPorDia' : IDL.Func(
+        [IDL.Text],
+        [IDL.Vec(Horario)],
+        ['query'],
+      ),
+    'buscarHorariosPorDocente' : IDL.Func(
+        [IDL.Nat],
+        [IDL.Vec(Horario)],
+        ['query'],
+      ),
+    'buscarHorariosPorDocenteYMateria' : IDL.Func(
+        [IDL.Nat, IDL.Nat],
+        [IDL.Vec(Horario)],
+        ['query'],
+      ),
+    'buscarHorariosPorMateria' : IDL.Func(
+        [IDL.Nat],
+        [IDL.Vec(Horario)],
+        ['query'],
+      ),
+    'buscarHorariosPorSalon' : IDL.Func(
+        [IDL.Text],
+        [IDL.Vec(Horario)],
+        ['query'],
+      ),
+    'buscarHorariosPorSalonYCarrera' : IDL.Func(
+        [IDL.Text, IDL.Nat],
+        [IDL.Vec(Horario)],
+        ['query'],
+      ),
+    'buscarHorariosPorTurno' : IDL.Func(
+        [IDL.Text],
+        [IDL.Vec(Horario)],
+        ['query'],
+      ),
+    'buscarMateriaPorNombre' : IDL.Func(
+        [IDL.Text],
+        [IDL.Vec(Materia)],
+        ['query'],
+      ),
+    'buscarMateriasPorCarrera' : IDL.Func(
+        [IDL.Nat],
+        [IDL.Vec(Materia)],
+        ['query'],
+      ),
+    'calcularPromedioAlumno' : IDL.Func(
+        [IDL.Nat],
+        [IDL.Opt(IDL.Nat)],
+        ['query'],
+      ),
+    'calcularPromedioPorCarrera' : IDL.Func(
+        [IDL.Nat],
+        [IDL.Opt(IDL.Nat)],
+        ['query'],
+      ),
+    'calcularPromedioPorMateria' : IDL.Func(
+        [IDL.Nat],
+        [IDL.Opt(IDL.Nat)],
+        ['query'],
+      ),
+    'editarAlumno' : IDL.Func(
+        [
+          IDL.Nat,
+          IDL.Text,
+          IDL.Text,
+          IDL.Nat,
+          IDL.Nat,
+          IDL.Text,
+          IDL.Text,
+          IDL.Text,
+          IDL.Text,
+        ],
+        [],
+        [],
+      ),
+    'editarCalificacion' : IDL.Func(
+        [IDL.Nat, IDL.Nat, IDL.Bool, IDL.Opt(IDL.Nat), IDL.Nat, IDL.Text],
+        [],
+        [],
+      ),
+    'editarCarrera' : IDL.Func([IDL.Nat, IDL.Text], [], []),
+    'editarDocente' : IDL.Func([IDL.Nat, IDL.Text], [], []),
+    'editarDocentePorMateria' : IDL.Func([IDL.Nat, IDL.Nat, IDL.Nat], [], []),
+    'editarHorario' : IDL.Func(
+        [
+          IDL.Nat,
+          IDL.Text,
+          IDL.Text,
+          IDL.Nat,
+          IDL.Text,
+          IDL.Text,
+          IDL.Nat,
+          IDL.Text,
+          IDL.Text,
+        ],
+        [],
+        [],
+      ),
+    'editarMateria' : IDL.Func([IDL.Nat, IDL.Nat, IDL.Text], [], []),
+    'eliminarAlumno' : IDL.Func([IDL.Nat], [], []),
+    'eliminarCalificacion' : IDL.Func([IDL.Nat], [], []),
+    'eliminarCarrera' : IDL.Func([IDL.Nat], [], []),
+    'eliminarDocente' : IDL.Func([IDL.Nat], [], []),
+    'eliminarHorario' : IDL.Func([IDL.Nat], [], []),
+    'eliminarMateria' : IDL.Func([IDL.Nat], [], []),
+    'eliminarMateriaDocente' : IDL.Func([IDL.Nat], [], []),
+    'getAlumnos' : IDL.Func([], [IDL.Vec(Alumno)], ['query']),
+    'getCalificaciones' : IDL.Func([], [IDL.Vec(Calificacion)], ['query']),
+    'getCarreras' : IDL.Func([], [IDL.Vec(Carrera)], ['query']),
+    'getDocentes' : IDL.Func([], [IDL.Vec(Docente)], ['query']),
+    'getHorarios' : IDL.Func([], [IDL.Vec(Horario)], ['query']),
+    'getMaterias' : IDL.Func([], [IDL.Vec(Materia)], ['query']),
+    'getMateriasDocentes' : IDL.Func([], [IDL.Vec(MateriaDocente)], ['query']),
+  });
+};
+export const init = ({ IDL }) => { return []; };

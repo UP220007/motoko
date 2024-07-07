@@ -1,0 +1,90 @@
+type MateriaDocente = 
+ record {
+   docente_id: nat;
+   id: nat;
+   materia_id: nat;
+ };
+type Materia = 
+ record {
+   carrera_id: nat;
+   id: nat;
+   nombre: text;
+ };
+type Horario = 
+ record {
+   cuatrimestre: text;
+   dia: text;
+   docente_id: nat;
+   hora_fin: text;
+   hora_inicio: text;
+   id: nat;
+   materia_id: nat;
+   salon: text;
+   turno: text;
+ };
+type Docente = 
+ record {
+   id: nat;
+   nombre: text;
+ };
+type Carrera = 
+ record {
+   id: nat;
+   nombre: text;
+ };
+type Calificacion = 
+ record {
+   alumno_id: nat;
+   aprobada: bool;
+   calificacion: opt nat;
+   id: nat;
+   materia_id: nat;
+   oportunidad: text;
+ };
+type Alumno = 
+ record {
+   apellido_materno: text;
+   apellido_paterno: text;
+   carrera_id: nat;
+   cuatrimestre_en_curso: nat;
+   fecha_inscripcion: text;
+   fecha_nacimiento: text;
+   grupo: text;
+   id: nat;
+   nombres: text;
+ };
+service : {
+  addAlumno: (text, text, nat, nat, text, text, text, nat, text) -> ();
+  addCalificacion: (nat, bool, opt nat, nat, nat, text) -> ();
+  addCarrera: (nat, text) -> ();
+  addDocente: (nat, text) -> ();
+  addHorario: (text, text, nat, text, text, nat, nat, text, text) -> ();
+  addMateria: (nat, nat, text) -> ();
+  addMateriaDocente: (nat, nat, nat) -> ();
+  buscarAlumnoPorId: (nat) -> (opt Alumno) query;
+  buscarCalificacionesPorAlumno: (nat) -> (vec Calificacion) query;
+  buscarHorariosPorDocente: (nat) -> (vec Horario) query;
+  buscarHorariosPorMateria: (nat) -> (vec Horario) query;
+  buscarHorariosPorSalonYCarrera: (text, nat) -> (vec Horario) query;
+  editarAlumno: (nat, text, text, nat, nat, text, text, text, text) -> ();
+  editarCalificacion: (nat, nat, bool, opt nat, nat, text) -> ();
+  editarCarrera: (nat, text) -> ();
+  editarDocente: (nat, text) -> ();
+  editarDocentePorMateria: (nat, nat, nat) -> ();
+  editarHorario: (nat, text, text, nat, text, text, nat, text, text) -> ();
+  editarMateria: (nat, nat, text) -> ();
+  eliminarAlumno: (nat) -> ();
+  eliminarCalificacion: (nat) -> ();
+  eliminarCarrera: (nat) -> ();
+  eliminarDocente: (nat) -> ();
+  eliminarHorario: (nat) -> ();
+  eliminarMateria: (nat) -> ();
+  eliminarMateriaDocente: (nat) -> ();
+  getAlumnos: () -> (vec Alumno) query;
+  getCalificaciones: () -> (vec Calificacion) query;
+  getCarreras: () -> (vec Carrera) query;
+  getDocentes: () -> (vec Docente) query;
+  getHorarios: () -> (vec Horario) query;
+  getMaterias: () -> (vec Materia) query;
+  getMateriasDocentes: () -> (vec MateriaDocente) query;
+}
